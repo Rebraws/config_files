@@ -31,7 +31,7 @@ endif
 
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
-"au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 " Uncomment the following to have Vim load indentation rules and plugins
 " according to the detected filetype.
@@ -52,7 +52,6 @@ endif
 if filereadable("/etc/vim/vimrc.local")
   source /etc/vim/vimrc.local
 endif
-
 set tabstop=2
 set shiftwidth=2
 set cc=80
@@ -63,7 +62,8 @@ set expandtab
 filetype indent on
 set smartindent
 set number
-colorscheme desert
+set relativenumber
+set autoread
 
 if &term =~ '^screen'
     " tmux will send xterm-style keys when its xterm-keys option is on
@@ -80,17 +80,29 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
+"inoremap <silent><expr> <Tab>
+"      \ pumvisible() ? "\<C-n>" :
+"      \ <SID>check_back_space() ? "\<Tab>" :
+"      \ coc#refresh()
 
 
 
 call plug#begin()
+Plug 'godlygeek/tabular'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'morhetz/gruvbox'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'peterhoeg/vim-qml'
+Plug 'dracula/vim', { 'name': 'dracula' }
 call plug#end()
 
+colorscheme gruvbox
+" Coc shortcuts
+nmap <silent> gs :call CocAction('jumpDefinition', 'split')<CR>
+nmap <silent> gd :call CocAction('jumpDefinition', 'vsplit')<CR>
+nmap <silent> gt :call CocAction('jumpDefinition', 'tabe')<CR>
+nmap <silent> gg :call CocAction('jumpDefinition', '')<CR>
+nmap <silent> gr <Plug>(coc-references)  
 
