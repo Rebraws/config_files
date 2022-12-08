@@ -64,7 +64,8 @@ set smartindent
 set number
 set relativenumber
 set autoread
-
+set makeprg=ninja
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 if &term =~ '^screen'
     " tmux will send xterm-style keys when its xterm-keys option is on
     execute "set <xUp>=\e[1;*A"
