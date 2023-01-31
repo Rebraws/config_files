@@ -32,6 +32,8 @@ endif
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" Add header guards to .h files
+autocmd BufNewFile *.h execute "normal i#ifndef " . toupper(expand("%:t:r")) . "_H_\n#define " . toupper(expand("%:t:r")) . "_H_\n\n#endif /* " . toupper(expand("%:t:r")) . "_H_ */"
 
 " Uncomment the following to have Vim load indentation rules and plugins
 " according to the detected filetype.
@@ -65,6 +67,8 @@ set number
 set relativenumber
 set autoread
 set makeprg=ninja
+nnoremap <C-b> :make -f build.ninja -C build/<CR>
+:nnoremap <C-t> :!ctest --test-dir build/ --output-on-failure<CR>
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 if &term =~ '^screen'
     " tmux will send xterm-style keys when its xterm-keys option is on
@@ -89,6 +93,7 @@ endfunction
 
 
 call plug#begin()
+Plug 'lervag/vimtex'
 Plug 'godlygeek/tabular'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -98,6 +103,13 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'peterhoeg/vim-qml'
 Plug 'dracula/vim', { 'name': 'dracula' }
 call plug#end()
+
+" Latex configuration 
+let g:tex_flavor='latex'
+let g:vimtex_view_method='zathura'
+let g:vimtex_quickfix_mode=0
+set conceallevel=1
+let g:tex_conceal='abdmg'
 
 colorscheme gruvbox
 " Coc shortcuts
