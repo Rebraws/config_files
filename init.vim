@@ -111,6 +111,7 @@ let g:vimtex_quickfix_mode=0
 set conceallevel=1
 let g:tex_conceal='abdmg'
 
+let g:gruvbox_contrast_dark='hard'
 colorscheme gruvbox
 " Coc shortcuts
 nmap <silent> gs :call CocAction('jumpDefinition', 'split')<CR>
