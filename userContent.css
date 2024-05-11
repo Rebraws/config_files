@@ -1,0 +1,10 @@
+@-moz-document url("about:home"), url("about:newtab") {
+  .search-inner-wrapper { display: none !important; }
+  body {
+    background: url("img/girl-gruvbox.png") !important;
+    background-size: cover !important;
+    background-color: gray !important; /* Fallback in case image isn't found */
+  }
+}
+
+
