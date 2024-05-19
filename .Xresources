@@ -6,8 +6,17 @@
 ! Last Modified: 6 Sep 2014
 ! -----------------------------------------------------------------------------
 
-!! Source Code Pro
-URxvt.font: xft:Source\ Code\ Pro:size=12
+!
+! URxvt settings
+!
+!! Fonts
+
+URxvt.font: xft:Hack Nerd Font Mono:style=Regular:size=12,xft:DejaVuSansM Nerd Font Mono:style=Regular:size=12
+URxvt.boldFont: xft:Hack Nerd Font Mono:style=Bold:size=12,xft:DejaVuSansM Nerd Font Mono:style=Bold:size=12
+URxvt.italicFont: xft:Hack Nerd Font Mono:style=Italic:size=12,xft:DejaVuSansM Nerd Font Mono:style=Italic:size=12
+URxvt.boldItalicFont: xft:Hack Nerd Font Mono:style=Bold Italic:size=12,xft:DejaVuSansM Nerd Font Mono:style=Bold Italic:size=12
+
+!! THEME
 ! hard contrast: 
 *background: #1d2021
 !*background: #282828
@@ -38,3 +47,10 @@ URxvt.font: xft:Source\ Code\ Pro:size=12
 *color7:  #a89984
 *color15: #ebdbb2
 
+URxvt.cursorUnderline: false
+URxvt.cursorBlink: true
+
+URxvt.perl-ext-common: cursor-bar
+
+URxvt.scrollBar: false
+URxvt.underlineURLs:  True
