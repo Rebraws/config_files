@@ -1,0 +1,3 @@
+! Disable caps lock and remap it to backspace
+remove Lock = Caps_Lock
+keysym Caps_Lock = BackSpace
