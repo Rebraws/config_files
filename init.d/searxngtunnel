@@ -1,0 +1,48 @@
+#!/sbin/openrc-run
+
+name="searxngtunnel"
+description="SSH Tunnel for searxng server"
+pidfile="/run/${RC_SVCNAME}.pid"
+command="/usr/bin/ssh"
+command_args="-fN searxngtunnel"
+
+# Run the service in the background
+command_background="yes"
+
+# Dependencies
+depend() {
+    need net
+    after network-online
+}
+
+start_pre() {
+    checkpath --directory --owner root:root --mode 0755 /run
+          
+    eval $(ssh-agent -s)
+    ssh-add ~/.ssh/tunnel_rsa
+}
+
+start() {
+    ebegin "Starting $RC_SVCNAME"
+
+    start-stop-daemon --start \
+        --quiet \
+        --exec "${command}" \
+        --pidfile "${pidfile}" \
+        --make-pidfile \
+        --background \
+        -- ${command_args}
+
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping $RC_SVCNAME"
+
+    start-stop-daemon --stop \
+        --quiet \
+        --pidfile "${pidfile}"
+
+    eend $?
+}
+
