@@ -90,6 +90,8 @@ endfunction
 "      \ <SID>check_back_space() ? "\<Tab>" :
 "      \ coc#refresh()
 
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 
 call plug#begin()
@@ -119,6 +121,9 @@ nmap <silent> gd :call CocAction('jumpDefinition', 'vsplit')<CR>
 nmap <silent> gt :call CocAction('jumpDefinition', 'tabe')<CR>
 nmap <silent> gg :call CocAction('jumpDefinition', '')<CR>
 nmap <silent> gr <Plug>(coc-references)  
+nmap <silent> ga <Plug>(coc-codeaction-cursor)
+
+xmap <silent>  ga<Plug>(coc-codeaction-selected)
 
 nmap <C-i> :CocCommand document.toggleInlayHint<CR>
 
