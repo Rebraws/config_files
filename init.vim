@@ -93,8 +93,16 @@ endfunction
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 call plug#begin()
+Plug 'chipsenkbeil/distant.nvim', {
+\ 'branch': 'v0.3',
+\ 'do': ':lua require(\"distant\"):setup()'
+\ }
 Plug 'lervag/vimtex'
 Plug 'godlygeek/tabular'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -152,3 +160,44 @@ command! -bang -nargs=? -complete=dir Files
 " Optional: Use ripgrep to search for the word under the cursor
 nnoremap <silent> <Leader>* :Rg <C-R><C-W><CR>
 
+lua << EOF
+
+local server_alias = "gpuserver"
+
+local function get_server_info(path)
+  if vim.fn.filereadable(path) == 0 then
+    return nil
+  end
+  local info = {}
+  for _, line in ipairs(vim.fn.readfile(path)) do
+    local key, value = line:match("([^=]+)=(.+)")
+    if key and value then
+      info[key] = value
+    end
+  end
+  return info
+end
+
+local info_file_path = vim.fn.expand("~/.config/server_tokens/server_info.txt")
+local server_info = get_server_info(info_file_path)
+
+
+require('distant'):setup(
+  {
+    servers = {
+        ['localhost'] = {
+            connect = {
+                default = {
+                    port = server_info.DISTANT_PORT,
+                    options = 'key=' .. server_info.DISTANT_TOKEN
+                }
+            }
+        }
+    }
+}
+)
+EOF
+
+
+command! Dcl DistantConnect localhost
+command! -nargs=1 Dfe DistantOpen <args>
