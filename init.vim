@@ -135,24 +135,35 @@ xmap <silent>  ga<Plug>(coc-codeaction-selected)
 
 nmap <C-i> :CocCommand document.toggleInlayHint<CR>
 
-" Rip grep with fzf integration
-" fzf ripgrep
-let g:rg_command = 'rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always" -g "*.{cpp,hpp,h,c}" -g "!{.git,node_modules}/*"'
 
-" Define custom commands
-command! -bang -nargs=* Rg call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
+" Enhanced ripgrep with fzf integration
+let g:rg_command = 'rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --color "always" -g "*.{cppm,cpp,hpp,h,c,cc,cxx}" -g "!{.git,node_modules,build,dist,target}/*"'
+
+" Custom commands (without preview first to test)
+command! -bang -nargs=* Rg call fzf#vim#grep(g:rg_command .' '.shellescape(<q-args>), 1, <bang>0)
+
+" Word under cursor search
+nnoremap <Leader>rw :Rg <C-R><C-W><CR>
+
+" Case-sensitive search option
+command! -bang -nargs=* RgCase call fzf#vim#grep('rg --column --line-number --no-heading --case-sensitive --hidden --follow --color "always" -g "*.{cppm,cpp,hpp,h,c,cc,cxx}" -g "!{.git,node_modules,build,dist,target}/*" '.shellescape(<q-args>), 1, <bang>0)
 
 " Key mappings
 nnoremap <Leader>f :Files<CR>
 nnoremap <Leader>r :Rg<CR>
+nnoremap <Leader>rc :RgCase<CR>
+nnoremap <Leader>rw :Rg <C-R><C-W><CR>
 nnoremap <Leader>b :Buffers<CR>
-
-" Optional: Use fzf for tag jumping (useful for C++)
 nnoremap <Leader>t :Tags<CR>
+
+
 
 " Optional: Customize fzf appearance
 let g:fzf_layout = { 'down': '~40%' }
 
+
+"
+"
 " Optional: Preview window (requires Bat for syntax highlighting)
 command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
