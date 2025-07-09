@@ -1,0 +1,30 @@
+{
+  "inlayHint.display": false,
+  "languageserver": {
+    "clangd": {
+      "command": "clangd",
+      "args": [
+        "--background-index",
+        "--clang-tidy",
+        "--completion-style=detailed",
+        "--header-insertion=iwyu",
+        "--pch-storage=memory",
+        "--pretty"
+      ],
+      "rootPatterns": [
+        "compile_commands.json",
+        "compile_flags.txt",
+        ".clangd",
+        ".git",
+        "CMakeLists.txt",
+        "Makefile",
+        "meson.build"
+      ],
+      "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp", "cuda"],
+      "initializationOptions": {
+        "fallbackFlags": ["-std=c++20"]
+      }
+    }
+  }
+}
+
